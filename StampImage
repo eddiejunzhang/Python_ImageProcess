@@ -1,0 +1,31 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Aug 19 21:59:26 2018
+印章制作时，图样处理
+阳文：红字白底。CNC图像应为白字黑底。
+阴文：红底白字。CNC图像应为白底黑字。
+@author: tj863
+"""
+
+from PIL import Image
+import numpy as np
+
+#读取图片
+#a=np.array(Image.open("JQZC1.png"))
+#读取图片并转为灰度图
+a=np.array(Image.open("JQZC2.png").convert('L'))
+print(a.shape,a.dtype)
+#获取宽高像素值
+w,h = a.shape
+#print(str(w)+str(h))
+for x in range(w):
+    for y in range(h):
+#        print(a[x][y])
+        #当有一个像素不是纯色时，把它改为纯色
+        #0是黑，255是白
+        if a[x][y] <  255:
+            a[x][y]=0
+#b= [255,255,255,0]-a
+b=255-a 
+im=Image.fromarray(b.astype('uint8'))
+im.save("JQZC2A.png")
